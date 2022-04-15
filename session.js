@@ -4,11 +4,13 @@ const path = require('path')
 const nodemailer = require('nodemailer')
 const bodyparser = require('body-parser')
 const upl = require('multer')()
+const cookieParser = require('cookie-parser')
 const session = require('express-session')
 let app = express()
 app.set('views','./views')
 app.set('view engine','pug')
 app.use(express.json())
+app.use(cookieParser())
 app.use(bodyparser.urlencoded({extended:true}))
 app.use(upl.array())
 app.use(express.static('public'))
@@ -48,8 +50,14 @@ app.post('/sign_in',(req,res)=>{
 		if (Object.keys(result).length === 0){
 			res.redirect('/')
 		}else if (result[0].passwd==pass){
-			req.session.user = result[0].name
-			console.log(req.session.user)
+			let user={
+				cookiename:`'${result[0].name}'`,
+				cookiemail:`'${uname}'`,
+				cookiepass:`'${pass}'`
+			}
+			res.cookie("userdata",user)
+			res.session.user=result[0].name
+			console.log(user)
 			res.redirect('/home')
 			
 		}else{
