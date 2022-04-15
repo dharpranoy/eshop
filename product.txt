@@ -1,0 +1,4 @@
+5	Park Avenue Deodrant	DRB6721POR	273	The best smell for men, stays 24 hours all day	hygiene
+6	Almond nuts	REY1954YTH	460	Collected best almonds for healthy lifestyle	food
+7	Toothbrush	WEB4323PIR	125	Oral hygiene all day long	hygiene
+

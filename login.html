@@ -1,0 +1,168 @@
+<html>
+<head>
+  <title>Shop-ovo.com</title>  
+    <meta charset="utf-8">
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link ref='icon' href='icon.ico' type='image/x-icon'>
+    <script type="text/javascript">
+        get=()=>{
+            let dom = document.getElementById("low");
+            dom.innerHTML="";
+            let par = document.createElement('form');
+            par.setAttribute('action','/reset/gen');
+            par.setAttribute('method','post');
+            let tx = document.createElement('input');
+            tx.setAttribute('type','email');
+            tx.setAttribute('placeholder','Enter your registered mail id');
+            tx.setAttribute('name','mail');
+            let su = document.createElement('input');
+            su.setAttribute('type','submit');
+            su.setAttribute('value','generate otp');
+            par.appendChild(tx);
+            par.appendChild(su);
+            dom.appendChild(par);
+        }
+    </script>
+    <style>
+       body
+       {
+            
+       }
+    .SignUp
+        {
+            font-family: Varela Round;
+            display: flex;
+            flex-wrap: wrap;
+			padding:4rem;
+			max-width:1366px;
+			margin:auto;
+			
+           
+        }
+        .SignUp>div
+        {
+			
+			padding:2rem;
+            flex: auto;
+        }
+    fieldset
+        {
+			
+            border: 0.15rem solid dimgrey;
+            border-radius: 1.3rem;
+            transition: 0.7s;
+			
+			
+			height:100%;
+			
+        }
+    fieldset:hover
+        {
+            transition: 0.7s;
+            border:0.15rem solid black;
+        }
+    input
+        {
+            border: 0.15rem solid grey;
+            border-radius: 1rem;
+            font-family: Varela Round;
+            padding: 1rem;
+            margin: 0.5rem;
+			min-width: 90%;
+			max-width:90%;
+            outline: none;
+            transition:0.5s;
+        }
+    input:hover
+        {
+            transition:0.5s;
+            background-color: black;
+            border:0.15rem solid black;
+            color: white;
+            
+        }
+    #sub1
+        {
+            background-color: cornflowerblue;
+            outline: none;
+            border: none;
+            color: wheat;
+            font-size: 1.25rem;
+             transition: 0.7s;
+        }
+    #sub2
+        {
+            background-color: dimgrey;
+            outline: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            transition: 0.7s;
+        }
+    #sub1:hover
+        {
+            transition: 0.7s;
+            background-color: dodgerblue;
+        }
+    #sub2:hover
+        {
+            transition:0.7s;
+            background-color: black;
+        }
+    #header{
+        font-family: 'Verala Round';
+        padding-top: 3rem;
+        text-align: center;
+    }
+    #header>button{
+        font-size: large;
+        border: 0.5rem solid black;
+        border-radius: 5rem;
+        background-color: black;
+        color: white;
+    }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <button><b>Shop online with Shop-ovo</b></button>
+    </div>
+    <div class="SignUp">
+        <div>
+        <fieldset>
+		<legend>Sign Up</legend>
+        <form action="/sign_up" method="post">
+        <input type="text" name="uname" required placeholder="Enter your username"><br>
+        <input type="email" name="mail" required placeholder="Enter your email id"><br>
+        <input type="password" name="passwd" required placeholder="Enter a password for your username"><br>
+        <input id="sub1" type="submit" value="Sign Up"><br>
+        </form>
+		</fieldset>
+        </div>
+       
+        <div>
+       <fieldset>
+	   <legend>Log In</legend>
+        <form action="/sign_in" method="post">
+        <input type="email" name="mail" required placeholder="Enter your username"><br>
+        <input type="password" name="passwd" required placeholder="Enter a password for your username"><br>
+        <input id="sub2" type="submit" value="log in"><br>
+        </form>
+       </fieldset>
+        </div>
+    </div>
+    <div id="low">
+        <button type="button" onclick="get()">Forgot password</button>
+    </div>
+      
+
+    
+</body>
+
+
+</html>
