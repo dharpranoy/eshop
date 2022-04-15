@@ -51,12 +51,11 @@ app.post('/sign_in',(req,res)=>{
 			res.redirect('/')
 		}else if (result[0].passwd==pass){
 			let user={
-				cookiename:`'${result[0].name}'`,
-				cookiemail:`'${uname}'`,
-				cookiepass:`'${pass}'`
+				cookiename:`${result[0].name}`,
+				cookiemail:`${uname}`,
+				cookiepass:`${pass}`
 			}
 			res.cookie("userdata",user)
-			req.session.user=result[0].name
 			res.redirect('/home')
 			
 		}else{
@@ -66,7 +65,7 @@ app.post('/sign_in',(req,res)=>{
 	
 })
 app.get('/home',(req,res)=>{
-	if (req.session.user!=null){
+	if (req.cookies.userdata!=null){
 	res.status=200
 	res.type('text/html')
 	res.send(`
@@ -260,7 +259,7 @@ app.post('/reset/:ret',(req,res)=>{
 	}
 })
 app.post('/suggest',(req,res)=>{
-	if (req.session.user!=null){
+	if (req.cookies.userdata!=null){
 	console.log(req.cookies)
 	res.status=200
 	res.type('application/json')
@@ -273,7 +272,7 @@ app.post('/suggest',(req,res)=>{
 	}
 })
 app.get('/desc',(req,res)=>{
-	if (req.session.user!=null){
+	if (req.cookies.userdata!=null){
 	res.status=200
 	res.type('text/html')
 	res.send(`
@@ -399,19 +398,19 @@ app.get('/desc',(req,res)=>{
 	}
 })
 app.post('/kart/:opr',(req,res)=>{
-	if (req.session.user!=null){
+	if (req.cookies.userdata!=null){
 		console.log(req.params.opr)
 		switch(req.params.opr){
 			case 'show':
 				res.type('application/json')
-				con.query('select prname,prid from kart_'+req.session.user,(err,result)=>{
+				con.query('select prname,prid from kart_'+req.cookies.userdata.cookiename,(err,result)=>{
 					if (err) throw err
 					res.send(JSON.stringify(result))
 				})
 				break
 			case 'addk':
 				res.type('text/plain')
-				con.query('insert into kart_'+req.session.user+' values ('+"'"+req.body.ord+"'"+","+"'"+req.body.co+"'"+')',(err,result)=>{
+				con.query('insert into kart_'+req.cookies.userdata.cookiename+' values ('+"'"+req.body.ord+"'"+","+"'"+req.body.co+"'"+')',(err,result)=>{
 					if (err) throw err
 					res.send('added to kart')
 				})
@@ -428,11 +427,11 @@ app.post('/kart/:opr',(req,res)=>{
 	}
 })
 app.post('/buyitem',(req,res)=>{
-	if (req.session.user!=null){
+	if (req.cookies.userdata!=null){
 		let code=req.body
 		con.query('SELECT pname,pcost from productlist where pcode='+"'"+code.co+"'",(err,result)=>{
 			if (err) throw err
-			con.query('INSERT into ord_'+req.session.user+'(ordername,'+'orderid,'+'shipping,'+'ocost)'+'values ('+"'"+result[0].pname+"'"+','+"'"+code.co+"'"+','+"'"+code.loc+"'"+','+result[0].pcost+')',(err,outp)=>{
+			con.query('INSERT into ord_'+req.cookies.userdata.cookiename+'(ordername,'+'orderid,'+'shipping,'+'ocost)'+'values ('+"'"+result[0].pname+"'"+','+"'"+code.co+"'"+','+"'"+code.loc+"'"+','+result[0].pcost+')',(err,outp)=>{
 				if (err) throw err
 				res.type('text/plain')
 				res.send('order placed')
@@ -443,7 +442,7 @@ app.post('/buyitem',(req,res)=>{
 	}
 })
 app.post('/prod',(req,res)=>{
-	if (req.session.user!=null){
+	if (req.cookies.userdata!=null){
 	let code=req.body
 	con.query('SELECT * FROM productlist where pcode="'+code.co+'"',(err,result)=>{
 		if (err) throw err
@@ -455,10 +454,10 @@ app.post('/prod',(req,res)=>{
 	
 })
 app.post('/order_hist',(req,res)=>{
-
-	if (req.session.user!=null){
+	
+	if (req.cookies.userdata!=null){
 		res.type('applicaton/json')
-		con.query('SELECT * from ord_'+req.session.user,(err,result)=>{
+		con.query('SELECT * from ord_'+req.cookies.userdata.cookiename,(err,result)=>{
 			if (err) throw err
 			res.send(JSON.stringify(result))
 		})
@@ -467,10 +466,8 @@ app.post('/order_hist',(req,res)=>{
 	}
 }) 
 app.get('/logout',(req,res)=>{
-	req.session.destroy((err)=>{
-		console.log(req.session)
-		res.redirect('/')
-	})
+	res.clearCookie('userdata')
+	res.redirect("/")
 	
 })
 app.post('/sign_up',(req,res)=>{
@@ -496,10 +493,15 @@ app.post('/sign_up',(req,res)=>{
 		else
 			console.log('created kart')
 	})
-	req.session.user = uname
-	console.log(req.session.user)
+	let user = { 
+				cookiename:`${result[0].name}`,
+				cookiemail:`${uname}`,
+				cookiepass:`${pass}`
+		}
+	res.cookie("userdata",user)
+
 	res.render('welcome',{
-		name:req.session.user,
+		name:req.cookies.userdata.cookiename,
 		url:"/home"
 	})
 
