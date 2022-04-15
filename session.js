@@ -57,7 +57,6 @@ app.post('/sign_in',(req,res)=>{
 			}
 			res.cookie("userdata",user)
 			req.session.user=result[0].name
-			console.log(user)
 			res.redirect('/home')
 			
 		}else{
@@ -262,7 +261,7 @@ app.post('/reset/:ret',(req,res)=>{
 })
 app.post('/suggest',(req,res)=>{
 	if (req.session.user!=null){
-	console.log(req.session)
+	console.log(req.cookies)
 	res.status=200
 	res.type('application/json')
 	con.query('SELECT pname,pcode from productlist',(err,result)=>{
@@ -407,7 +406,6 @@ app.post('/kart/:opr',(req,res)=>{
 				res.type('application/json')
 				con.query('select prname,prid from kart_'+req.session.user,(err,result)=>{
 					if (err) throw err
-					console.log(result)
 					res.send(JSON.stringify(result))
 				})
 				break
