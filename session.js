@@ -56,7 +56,7 @@ app.post('/sign_in',(req,res)=>{
 				cookiepass:`'${pass}'`
 			}
 			res.cookie("userdata",user)
-			res.session.user=result[0].name
+			req.session.user=result[0].name
 			console.log(user)
 			res.redirect('/home')
 			

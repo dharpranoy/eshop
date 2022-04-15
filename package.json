@@ -3,8 +3,5 @@
 	"version": "1.1",
 	"author": "Pranoy Dhar <dharpranoy2255@gmail.com>",
 	"main": "session.js",
-	"copyright": "pranoydhar@2022",
-	"dependencies": {
-		"cookie-parser": "^1.4.6"
-	}
+	"copyright": "pranoydhar@2022"
 }
