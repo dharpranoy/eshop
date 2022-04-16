@@ -37,9 +37,13 @@ let transporter = nodemailer.createTransport({
 	}
 })
 app.get('/',(req,res)=>{
-	res.status=200
-	res.type('text/html')
-	res.sendFile(path.join(__dirname+'/login.html'))
+	if (req.cookies.userdata!=null){
+		res.redirect('/home')
+	}else{
+		res.status=200
+		res.type('text/html')
+		res.sendFile(path.join(__dirname+'/login.html'))
+	}
 })
 app.post('/sign_in',(req,res)=>{
 	res.status=200
@@ -221,6 +225,7 @@ app.get('/home',(req,res)=>{
 					<li><button type="button" id="kart" onclick="handle('kart/show')">Your Kart</button></li>
 					<li><button type="button" id="order_hist" onclick="handle('order_hist')">Orders</button></li>
 					<li><a id="logout" href='/logout'>Logout</a></li>
+					<li><a id="profile" href='/profview'>Profile</a></li>
 				</ul>
 			</div>
 			<div id="hover">
@@ -234,6 +239,17 @@ app.get('/home',(req,res)=>{
 			res.redirect('/')
 		}
 	
+})
+app.get('/profview',(req,res)=>{
+	if (req.cookies.userdata!=null){
+	res.render('prof',{
+		name:`${req.cookies.userdata.cookiename}`,
+		rg:`${req.cookies.userdata.cookiemail}`,
+		pass:`${req.cookies.userdata.cookiepass}`
+	})
+	}else{
+		res.redirect('/')
+	}
 })
 app.post('/reset/:ret',(req,res)=>{
 	let opt = req.params.ret
@@ -494,12 +510,11 @@ app.post('/sign_up',(req,res)=>{
 			console.log('created kart')
 	})
 	let user = { 
-				cookiename:`${result[0].name}`,
-				cookiemail:`${uname}`,
+				cookiename:`${uname}`,
+				cookiemail:`${mail}`,
 				cookiepass:`${pass}`
 		}
 	res.cookie("userdata",user)
-
 	res.render('welcome',{
 		name:req.cookies.userdata.cookiename,
 		url:"/home"
