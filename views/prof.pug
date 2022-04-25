@@ -3,31 +3,29 @@ html
 	head
 		title #{name} Profile View
 		style(text/css).
-			#btn{padding:1.4rem}
-		script.
-			gedit=()=>{
-				let par = document.getElementById('main')
-				par.innerHTML=""
-				let chl=document.createElement('input')
-				chl.setAttribute('type','text')
-				chl.setAttribute('name','pfname')
-				chl.setAttribute('id','newn')
-				chl.setAttribute('placeholder','Enter new name')
-				
-				let phl=document.createElement('input')
-				phl.setAttribute('type','password')
-				phl.setAttribute('id','newp')
-				phl.setAttribute('name','pss')
-				phl.setAttribute('placeholder','Enter new password')
-				
-				let send = document.createElement('button')
-				send.setAttribute('type','button')
-				send.setAttribute('onclick','reset()')
-				send.innerHTML='Cancel'
-				par.appendChild(chl)
-				par.appendChild(phl)
-				par.appendChild(send)
+			#edit>input{
+				padding:1rem;
+				margin:1rem;
+				width:20rem;
+				outline:none;
+				border:1px solid black;
+				border-radius:1rem;
 			}
+			#edit{
+				
+				text-align:center;
+			}
+			#main{
+				margin :auto;
+				width:50%;
+			}
+			#main>fieldset{
+				border-radius:1rem;
+			}
+			#main>fieldset>h1{
+				text-align:center;
+			}
+		script.
 			update=()=>{
 				let nn = document.getElementById('newn')
 				let np = document.getElementById('newp')
@@ -48,8 +46,13 @@ html
 
 	body
 		div#main
-			h2 #{name}
-			h2 #{rg}
-			h2 #{pass}
-			button#edit(type="button",onclick="gedit()") Edit Profile
+			img(src=primg)
+			fieldset 
+				h1 Registered Email id: #{rg}
+				form(action='/update',method='post',id='edit')
+					input(type='text',name='uname',value=name)
+					br
+					input(type='text',name='passwd',value=pass)
+					br
+					input(type='submit',value='Save Changes',style='background-color:#0067AA;color:white')
 		
